@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubectl-istio-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chapter: istio
+      topic: istio-installation
+  template:
+    metadata:
+      labels:
+        chapter: istio
+        topic: istio-installation
+    spec:
+      containers:
+      - name: kubectl-container
+        image: deepcloud2208/kubectlcontainer:latest

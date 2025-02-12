@@ -1,0 +1,35 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kiali-virtual-service
+  namespace: istio-system
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - kiali-ingress-gateway
+  http:
+  - match:
+    - port: 31400
+    route:
+    - destination:
+        host: kiali.istio-system.svc.cluster.local
+        port:
+          number: 20001
+
+  
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: kiali-desination-rule
+  namespace: istio-system
+spec:
+  host: kiali.istio-system.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+
+
+

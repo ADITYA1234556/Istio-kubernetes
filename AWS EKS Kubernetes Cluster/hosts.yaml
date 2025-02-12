@@ -1,0 +1,20 @@
+---
+host: app.prod.svc.cluster.local
+subset:
+- name: app-service-subset
+  labels:
+    version: v1
+    app: app
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+---
+host: app2.prod.svc.cluster.local
+subset:
+- name: app2-service-subset
+  labels:
+    version: v1
+    app: app2
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN

@@ -1,0 +1,54 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: istio-virtual-svc
+spec:
+  hosts:
+  - app-svc.production.svc.cluster.local
+  ## traffic to app-svc.prod.svc.cluster.local will be routed as per http route "virtual-service-routes" 80% to app and 20% to app2
+  http:
+  - name: virtual-service-routes
+    route:
+    - destination:
+        host: app-svc.production.svc.cluster.local
+        subset: app-service-subset
+      weight: 80
+    - destination:
+        host: app2-svc.production.svc.cluster.local
+        subset: app2-service-subset
+      weight: 20
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: istio-desination-rule1
+spec:
+  host: app-svc.production.svc.cluster.local
+  subsets:
+  - name: app-service-subset
+    labels:
+      app: app
+      version: v2
+      chapter: istio
+      topic: traffic-management
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: istio-desination-rule2
+spec:
+  host: app2-svc.production.svc.cluster.local
+  subsets:
+  - name: app2-service-subset
+    labels:
+      app: app2
+      version: v2
+      chapter: istio
+      topic: traffic-management
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN

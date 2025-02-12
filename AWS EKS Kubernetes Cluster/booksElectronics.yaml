@@ -1,0 +1,141 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chapter: istio
+      topic: traffic-management
+      app: books
+      version: v1
+  template:
+    metadata:
+      name: books-pod
+      labels:
+        chapter: istio
+        topic: traffic-management
+        app: books
+        version: v1
+    spec:
+      containers:
+      - name: books-cont
+        image: deepcloud2208/books:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: books-svc
+  labels:
+    app: books
+    chapter: istio
+    topic: traffic-management
+    version: v1
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 80
+  selector:
+    app: books
+    chapter: istio
+    topic: traffic-management
+    version: v1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: electronics-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chapter: istio
+      topic: traffic-management
+      app: electronics
+      version: v1
+  template:
+    metadata:
+      name: electronics-pod
+      labels:
+        chapter: istio
+        topic: traffic-management
+        app: electronics
+        version: v1
+    spec:
+      containers:
+      - name: electronics-cont
+        image: deepcloud2208/electronics:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: electronics-svc
+  labels:
+    app: electronics
+    chapter: istio
+    topic: traffic-management
+    version: v1
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 80
+  selector:
+    app: electronics
+    chapter: istio
+    topic: traffic-management
+    version: v1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chapter: istio
+      topic: traffic-management
+      app: retail
+      version: v1
+  template:
+    metadata:
+      name: retail-pod
+      labels:
+        chapter: istio
+        topic: traffic-management
+        app: retail
+        version: v1
+    spec:
+      containers:
+      - name: retail-cont
+        image: deepcloud2208/retail:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: retail-svc
+  labels:
+    app: retail
+    chapter: istio
+    topic: traffic-management
+    version: v1
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 80
+  selector:
+    app: retail
+    chapter: istio
+    topic: traffic-management
+    version: v1

@@ -1,0 +1,98 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: retail-portal-vs
+spec:
+  hosts:
+  - retail-svc.production.svc.cluster.local
+  ## traffic to retail-svc.prod.svc.cluster.local/books will be routed to books-svc.prod.svc.cluster.local
+  ## traffic to retail-svc.prod.svc.cluster.local/electronics will be routed to electronics-svc.prod.svc.cluster.local
+  ## traffic to retail-svc.prod.svc.cluster.local/retail will be routed to retail-svc.prod.svc.cluster.local
+  http:
+
+  - match:
+    - uri:
+        prefix: "/books"
+    #rewrite will change the url retail-svc.prod.svc.cluster.local/books to http://books-svc.prod.svc.cluster.local/
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: books-svc.production.svc.cluster.local
+        subset: books-service-subset
+
+  - match:
+    - uri:
+        prefix: "/electronics"
+    #rewrite will change the url retail-svc.prod.svc.cluster.local/electronics to http://electronics-svc.prod.svc.cluster.local/
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: electronics-svc.production.svc.cluster.local
+        subset: electronics-service-subset
+
+  - match:
+    - uri:
+        prefix: "/retail"
+    #rewrite will change the url retail-svc.prod.svc.cluster.local/books to http://retail-svc.prod.svc.cluster.local/
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: retail-svc.production.svc.cluster.local
+        subset: retail-service-subset
+
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: books-desination-rule
+spec:
+  host: books-svc.prod.svc.cluster.local
+  subsets:
+  - name: books-service-subset
+    labels:
+      app: books
+      version: v1
+      chapter: istio
+      topic: traffic-management
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: electronics-desination-rule
+spec:
+  host: electronics-svc.prod.svc.cluster.local
+  subsets:
+  - name: electronics-service-subset
+    labels:
+      app: electronics
+      version: v1
+      chapter: istio
+      topic: traffic-management
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: retail-desination-rule
+spec:
+  host: retail-svc.prod.svc.cluster.local
+  subsets:
+  - name: retail-service-subset
+    labels:
+      app: retail
+      version: v1
+      chapter: istio
+      topic: traffic-management
+    trafficPolicy:
+      loadBalancer:
+        simple: ROUND_ROBIN
+

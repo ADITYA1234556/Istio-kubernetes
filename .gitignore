@@ -1,0 +1,7 @@
+notes.txt
+istio-1.24.2
+Terraform-EKS-Istio/eks-tf/.terraform
+Terraform-EKS-Istio/eks-tf/tfplan
+Terraform-EKS-Istio/eks-tf/.terraform.lock.hcl
+Terraform-EKS-Istio/eks-tf/.terraform.lock.info
+Terraform-EKS-Istio/eks-tf/.terraform/providers/*

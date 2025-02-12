@@ -1,0 +1,16 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: meta-lb-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.86.15-192.168.86.26
+  autoAssign: true
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: meta-lb-pool
+  namespace: metallb-system
