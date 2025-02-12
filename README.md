@@ -1,6 +1,8 @@
 # Istio Application 
 
 ## **IMAGES**
+**Istio Architecture** <img src="istio-architecture.png">
+
 **Application Products UI** <img src="./Terraform-EKS-Istio/application-products-page.png">
 
 **Application Selected Item UI** <img src="./Terraform-EKS-Istio/application-item-page.png">
