@@ -5,3 +5,7 @@ Terraform-EKS-Istio/eks-tf/tfplan
 Terraform-EKS-Istio/eks-tf/.terraform.lock.hcl
 Terraform-EKS-Istio/eks-tf/.terraform.lock.info
 Terraform-EKS-Istio/eks-tf/.terraform/providers/*
+istio-record.mp4
+Terraform-Self-Hosted-Kubernetes/.terraform
+Terraform-Self-Hosted-Kubernetes/.terraform.lock.hcl
+Terraform-Self-Hosted-Kubernetes/tfplan

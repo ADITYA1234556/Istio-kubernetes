@@ -30,8 +30,8 @@ __NOTE__: Only the bastion host is accessible from the external network. Cluster
 ### Create Kubernetes Cluster
 Use a script to create a Kubernetes cluster with kubeadm.
 
-1. Download the [create_cluster](scripts/create_cluster.sh) on each node.  
-`wget ###`
+1. Download the [create_cluster](create_cluster.sh) on each node.  
+`wget https://raw.githubusercontent.com/ADITYA1234556/Istio-kubernetes/refs/heads/master/Terraform-Self-Hosted-Kubernetes/create_cluster_script.sh`
 2. Change permissions for the script.  
 `chmod +x create_cluster.sh`  
 NOTE: This script prepares the nodes with kubeadm as the [docs](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/). The cluster is intialized with pod-network-cidr=192.168.0.0/16
@@ -91,7 +91,7 @@ Exit the nodes and return to the bastion host.
 ### Create Deployment and Services for the Blog App.
 
 1. Download app [manifest](manifests/app.yaml)  
-`wget ###`
+`wget https://raw.githubusercontent.com/ADITYA1234556/Istio-kubernetes/refs/heads/master/Terraform-Self-Hosted-Kubernetes/manifests/app.yaml`
 2. Apply the manifest:    
 `kubectl -f app.yaml`  
 NOTE: Update the URLs in the configmap with your domain.  
@@ -115,7 +115,7 @@ Assumption: You have a domain.
     `kubectl patch node worker2 -p '{"spec":{"providerID":"aws:///eu-west-2/i-07229a43d8a7aee95"}}'`
 
 2. Download the Ingress manifest [here](manifests/ingress.yaml)  
- `wget ###`
+ `wget https://raw.githubusercontent.com/ADITYA1234556/Istio-kubernetes/refs/heads/master/Terraform-Self-Hosted-Kubernetes/manifests/ingress.yaml`
 3. Apply the Ingress manifest:  
  `kubectl create -f ingress.yaml`  
     NOTE: If a domain isn't available. Remove the host and HTTPS from ingress manifest:  
