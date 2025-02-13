@@ -1,0 +1,96 @@
+# main app 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: blog-app
+  template:
+    metadata:
+      labels:
+        app: blog-app
+    spec:
+      containers:
+        - name: blog-app
+          image: devopsavenue/blog-app:v1
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5001
+          env:
+            - name: LOGIN_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-urls
+                  key: LOGIN_URL
+            - name: LOGOUT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-urls
+                  key: LOGOUT_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog-app-svc
+spec:
+  type: NodePort
+  selector:
+    app: blog-app
+  ports:
+    - port: 80
+      targetPort: 5001
+      nodePort: 30011
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: login-app
+  template:
+    metadata:
+      labels:
+        app: login-app
+    spec:
+      containers:
+      - name: login-app
+        image: devopsavenue/loginapp:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5002
+        env:
+           - name: BASE_URL
+             valueFrom:
+              configMapKeyRef:
+                name: app-urls
+                key: BASE_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-app-svc
+spec:
+  type: NodePort
+  selector:
+    app: login-app
+  ports:
+    - port: 80
+      targetPort: 5002
+      nodePort: 30012
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-urls
+data:
+  BASE_URL: "https://blog2.adityaitc.theaditya.co.uk"
+  LOGIN_URL: "https://blog2.adityaitc.theaditya.co.uk/login"
+  LOGOUT_URL: "https://blog2.adityaitc.theaditya.co.uk/logout"
